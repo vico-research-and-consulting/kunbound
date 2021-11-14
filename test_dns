@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+import socket
+import timeit
+from datetime import timedelta
+
+HOST = "google.de"
+PORT = 80
+
+
+def run_request(**kwargs):
+  start = timeit.default_timer()
+  try:
+    socket.getaddrinfo(HOST, PORT, **kwargs)
+  except Exception as e:
+    pass
+  end = timeit.default_timer()
+  return timedelta(seconds=end-start)
+
+time_v4 = run_request(family=socket.AF_INET)
+time_v6 = run_request(family=socket.AF_INET6)
+time_wo = run_request()
+max_sec_offset = timedelta(seconds=3)
+
+if any([time_v4 > max_sec_offset, time_v6 > max_sec_offset, time_wo > max_sec_offset]):
+  print("ERROR: INET %s, INET6 %s, wo %s" % (time_v4, time_v6, time_wo))
+
