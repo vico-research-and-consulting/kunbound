@@ -1,6 +1,6 @@
 default: help
 
-IMAGES_REPO ?= markbnj
+IMAGES_REPO ?= vicoconsulting
 IMAGE_NAME ?= kunbound
 IMAGE_TAG ?= latest
 TEST_HOST ?= google.com
@@ -88,3 +88,5 @@ help:
 	@echo "KUBE_CONTEXT: override the current kube context"
 	@echo "VALUES: specify a values file to include"
 	@echo "CLUSTER_IP4_CIDR: address range to allow"
+	@echo 
+	@echo "e.g. make IMAGE_TAG=1.1 build"

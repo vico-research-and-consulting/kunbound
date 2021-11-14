@@ -7,6 +7,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/reposi
 
 # Expose udp port
 EXPOSE 53/udp
+EXPOSE 53/tcp
 
 WORKDIR /etc/unbound
 
