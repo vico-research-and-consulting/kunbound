@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     int rc = getaddrinfo(argv[1], "http", &hints, &res);
 
     if (rc == 0) {	
-        printf("OK: getaddrinfo returned no error for %s\n", argv[1]);
+        printf("OK: getaddrinfo returned no error for %s\nListing Results:\n", argv[1]);
         for (tmp = res; tmp != NULL; tmp = tmp->ai_next) {
           getnameinfo(tmp->ai_addr, tmp->ai_addrlen, host, sizeof(host), NULL, 0, NI_NUMERICHOST);
           puts(host);
