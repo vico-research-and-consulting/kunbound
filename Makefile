@@ -12,6 +12,10 @@ VALUES ?=
 VALUES_ARG :=
 CLUSTER_IP4_CIDR ?=
 
+.PHONY: clean
+clean:
+	docker rm -f $(IMAGE_NAME)-test
+
 .PHONY: no-cache
 no-cache:
 	$(eval NO_CACHE := --no-cache)
@@ -26,6 +30,10 @@ test:
 	docker run -d --name $(IMAGE_NAME)-test -p 8053:53/udp $(IMAGE_NAME):$(IMAGE_TAG)
 	dig @localhost -p 8053 $(TEST_HOST)
 	docker rm -f $(IMAGE_NAME)-test
+
+.PHONY: test-run
+test-run:
+	docker run --name $(IMAGE_NAME)-test -p 8053:53/udp $(IMAGE_NAME):$(IMAGE_TAG)
 
 .PHONY: build
 build: image test
@@ -69,6 +77,7 @@ help:
 	@echo
 	@echo "image: build the docker image locally"
 	@echo "test: test the docker image"
+	@echo "test-run: launch the docker image"
 	@echo "no-cache: disable docker layer caching"
 	@echo "build: runs image + test"
 	@echo "rebuild: runs no-cache + image + test"
