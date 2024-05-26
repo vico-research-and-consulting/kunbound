@@ -27,13 +27,13 @@ image:
 
 .PHONY: test
 test:
-	docker run -d --name $(IMAGE_NAME)-test -p 8053:53/udp $(IMAGE_NAME):$(IMAGE_TAG)
+	docker run -d --name $(IMAGE_NAME)-test -p 8053:53/udp -p 8053:53/tcp $(IMAGE_NAME):$(IMAGE_TAG)
 	dig @localhost -p 8053 $(TEST_HOST)
 	docker rm -f $(IMAGE_NAME)-test
 
 .PHONY: test-run
 test-run:
-	docker run --name $(IMAGE_NAME)-test -p 8053:53/udp $(IMAGE_NAME):$(IMAGE_TAG)
+	docker run --name $(IMAGE_NAME)-test -p 8053:53/udp -p 8053:53/tcp $(IMAGE_NAME):$(IMAGE_TAG)
 
 .PHONY: build
 build: image test
