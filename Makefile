@@ -98,4 +98,4 @@ help:
 	@echo "VALUES: specify a values file to include"
 	@echo "CLUSTER_IP4_CIDR: address range to allow"
 	@echo 
-	@echo "e.g. make IMAGE_TAG=1.1 build"
+	@echo "e.g. IMAGE_TAG=1.1 make build"
