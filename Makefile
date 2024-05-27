@@ -3,6 +3,7 @@ default: help
 IMAGES_REPO ?= vicoconsulting
 IMAGE_NAME ?= kunbound
 IMAGE_TAG ?= latest
+IMAGE_DOCKERFILE ?= Dockerfile
 TEST_HOST ?= google.com
 HELM_RELEASE ?= kunbound
 KUBE_CONTEXT ?= $(shell kubectl config current-context)
@@ -23,7 +24,7 @@ no-cache:
 
 .PHONY: image
 image:
-	docker build $(NO_CACHE) --rm=true --force-rm=true --tag=$(IMAGE_NAME):$(IMAGE_TAG) .
+	docker build $(NO_CACHE) --rm=true --force-rm=true --tag=$(IMAGE_NAME):$(IMAGE_TAG) -f ${IMAGE_DOCKERFILE} .
 
 .PHONY: test
 test:
@@ -98,6 +99,9 @@ help:
 	@echo "VALUES: specify a values file to include"
 	@echo "CLUSTER_IP4_CIDR: address range to allow"
 	@echo 
-	@echo "e.g.
+	@echo "e.g."
 	@echo "IMAGE_TAG=1.1 make build"
 	@echo "IMAGE_TAG=1.1 make push"
+	@echo ""
+	@echo "for debian:"
+	@echo "IMAGE_TAG=1.1deb IMAGE_DOCKERFILE=Dockerfile.debianbook make build"
