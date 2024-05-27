@@ -131,3 +131,7 @@ metadata:
 ```
 
 Set the DNS_ZONE to the domain you want forwarded to unbound, and set RESOLVER_IP to the cluster IP address of the kunbound service that was created when the chart was installed. To find this address run `kubectl get svc | grep kunbound`. In order to update the configmap first run `kubectl get configmap kubedns -n kube-system -oyaml` and save the output to a file. Make the edits shown above to add the stubDomains section if it isn't there, and then use `kubectl apply -f file_path` to update the configmap in the cluster.
+
+## Release Notes
+### 1.2
+Replace Debian as default distro caused by buggy behaviour of musl https://martinheinz.dev/blog/92

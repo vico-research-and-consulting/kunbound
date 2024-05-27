@@ -100,8 +100,8 @@ help:
 	@echo "CLUSTER_IP4_CIDR: address range to allow"
 	@echo 
 	@echo "e.g."
-	@echo "IMAGE_TAG=1.1 make build"
-	@echo "IMAGE_TAG=1.1 make push"
+	@echo "IMAGE_TAG=1.2 make build"
+	@echo "IMAGE_TAG=1.2 make push"
 	@echo ""
-	@echo "for debian:"
-	@echo "IMAGE_TAG=1.1deb IMAGE_DOCKERFILE=Dockerfile.debianbook make build"
+	@echo "for alpine:"
+	@echo "IMAGE_TAG=1.2alp IMAGE_DOCKERFILE=Dockerfile.alpine make build"

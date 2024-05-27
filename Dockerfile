@@ -1,21 +1,42 @@
-FROM alpine:latest
+FROM debian:bookworm
 
-# Install unbound
-RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
-    apk add --update unbound bash bind-tools && \
-    rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
+WORKDIR /tmp/src
 
-# Expose udp port
-EXPOSE 53/udp
+RUN set -x && \
+    DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
+      bsdmainutils \
+      ca-certificates \
+      ldnsutils \
+      libevent-2.1-7 \
+      libnghttp2-14 \
+      libexpat1 \
+      libprotobuf-c1 \
+      unbound \
+      bind9-dnsutils \
+      psmisc \
+      psutils \
+      procps && \
+    groupadd _unbound && \
+    useradd -g _unbound -s /dev/null -d /etc _unbound && \
+    apt-get purge -y --auto-remove \
+      $build_deps && \
+    rm -rf \
+        /opt/unbound/share/man \
+        /tmp/* \
+        /var/tmp/* \
+        /var/lib/apt/lists/*
+
+COPY etc/unbound/unbound.conf /etc/unbound/unbound.conf
+
+COPY sbin/unbound_deb.sh /unbound.sh
+
+RUN chmod +x /unbound.sh
+
+WORKDIR /opt/unbound/
+
+ENV PATH /opt/unbound/sbin:"$PATH"
+
 EXPOSE 53/tcp
+EXPOSE 53/udp
 
-WORKDIR /etc/unbound
-
-# the default conf just forwards to google public dns
-COPY etc/unbound/unbound.conf /etc/unbound/
-
-# entry point takes care of starting up unbound
-COPY sbin/entrypoint.sh /sbin/entrypoint.sh
-RUN chmod 755 /sbin/entrypoint.sh
-
-ENTRYPOINT ["/sbin/entrypoint.sh"]
+CMD ["/unbound.sh"]
