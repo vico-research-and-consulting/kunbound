@@ -13,7 +13,9 @@ RUN set -x && \
       libprotobuf-c1 \
       unbound \
       bind9-dnsutils \
-      psmisc && \
+      psmisc \
+      psutils \
+      procps && \
     groupadd _unbound && \
     useradd -g _unbound -s /dev/null -d /etc _unbound && \
     apt-get purge -y --auto-remove \
@@ -24,7 +26,7 @@ RUN set -x && \
         /var/tmp/* \
         /var/lib/apt/lists/*
 
-COPY etc/unbound/unbound.conf /opt/unbound/etc/unbound/unbound.conf
+COPY etc/unbound/unbound.conf /etc/unbound/unbound.conf
 
 COPY sbin/unbound_deb.sh /unbound.sh
 
